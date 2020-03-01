@@ -172,11 +172,11 @@ AssemblePldFile(char *file, struct Config *cfg)
 	int num_of_pins;
 	int num_of_col, fsize;
 
-	fsize = FileSize((UBYTE *) file);
+	fsize = FileSize(file);
 
 	if ((fbuff = malloc(fsize)))
 	{
-		if ((ReadFile((UBYTE *) file, fsize, fbuff)))
+		if ((ReadFile(file, fsize, (char *)fbuff)))
 		{
 			actptr = fbuff;
 			buffend = fbuff + fsize;
@@ -1636,7 +1636,7 @@ IsPinName(UBYTE * pinnames, int numofpins)
 		n++;
 	}
 
-	if (n)
+	if (n) {
 		if ((n == 2) && !strncmp((char *) oldactptr, "NC", (size_t) 2))
 			actPin.p_Pin = NC_PIN;	/* NC pin */
 		else
@@ -1655,6 +1655,7 @@ IsPinName(UBYTE * pinnames, int numofpins)
 						break;
 					}
 			}
+	}
 }
 
 
@@ -2202,7 +2203,7 @@ WriteFuseFile(char *filename, int gal_type)
 			else if (gal_type == GAL20V8)
 				fprintf(fp, "XOR = %1d   AC1 = %1d", Jedec.GALXOR[22 - pin], Jedec.GALAC1[22 - pin]);
 			else if (gal_type == GAL22V10)
-				fprintf(fp, "S0 = %1d   S1 = %1d", Jedec.GALXOR[23 - pin], Jedec.GALAC1[23 - pin]);
+				fprintf(fp, "S0 = %1d   S1 = %1d", Jedec.GALXOR[23 - pin], Jedec.GALS1[23 - pin]);
 			else if (gal_type == GAL20RA10)
 				fprintf(fp, "S0 = %1d", Jedec.GALXOR[23 - pin]);
 
